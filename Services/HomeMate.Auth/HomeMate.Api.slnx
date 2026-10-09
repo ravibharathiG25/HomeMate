@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="HomeMade.Application/HomeMate.Auth.Application.csproj" />
-  <Project Path="HomeMade.Domain/HomeMate.Auth.Domain.csproj" />
-  <Project Path="HomeMate.Api/HomeMate.Auth.Api.csproj" />
-  <Project Path="HomeMate.Infrastructure/HomeMate.Auth.Infrastructure.csproj" />
+    <Project Path="HomeMate.Auth.Application/HomeMate.Auth.Application.csproj" />
+    <Project Path="HomeMate.Auth.Domain/HomeMate.Auth.Domain.csproj" />
+    <Project Path="HomeMate.Auth.Api/HomeMate.Auth.Api.csproj" />
+    <Project Path="HomeMate.Auth.Infrastructure/HomeMate.Auth.Infrastructure.csproj" />
 </Solution>

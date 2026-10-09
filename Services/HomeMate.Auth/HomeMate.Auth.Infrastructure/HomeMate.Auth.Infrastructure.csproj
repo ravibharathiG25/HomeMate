@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HomeMade.Application\HomeMate.Auth.Application.csproj" />
-    <ProjectReference Include="..\HomeMade.Domain\HomeMate.Auth.Domain.csproj" />
+    <ProjectReference Include="..\HomeMate.Auth.Application\HomeMate.Auth.Application.csproj" />
+    <ProjectReference Include="..\HomeMate.Auth.Domain\HomeMate.Auth.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,19 +12,22 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HomeMate.Api/HomeMate.Api.csproj", "HomeMate.Api/"]
-RUN dotnet restore "./HomeMate.Api/HomeMate.Api.csproj"
+COPY ["HomeMate.Auth.Api/HomeMate.Auth.Api.csproj", "HomeMate.Auth.Api/"]
+COPY ["HomeMate.Auth.Application/HomeMate.Auth.Application.csproj", "HomeMate.Auth.Application/"]
+COPY ["HomeMate.Auth.Domain/HomeMate.Auth.Domain.csproj", "HomeMate.Auth.Domain/"]
+COPY ["HomeMate.Auth.Infrastructure/HomeMate.Auth.Infrastructure.csproj", "HomeMate.Auth.Infrastructure/"]
+RUN dotnet restore "./HomeMate.Auth.Api/HomeMate.Auth.Api.csproj"
 COPY . .
-WORKDIR "/src/HomeMate.Api"
-RUN dotnet build "./HomeMate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/HomeMate.Auth.Api"
+RUN dotnet build "./HomeMate.Auth.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HomeMate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./HomeMate.Auth.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HomeMate.Api.dll"]
+ENTRYPOINT ["dotnet", "HomeMate.Auth.Api.dll"]
