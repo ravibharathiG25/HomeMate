@@ -25,4 +25,11 @@ public class AuthController : ControllerBase
             message = "User registered successfully."
         });
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        var response = await _authService.LoginAsync(request);
+        return Ok(response);
+    }
 }
