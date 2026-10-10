@@ -1,43 +1,40 @@
-﻿using HomeMate.Application.Features.Authentication.DTOs;
-using HomeMate.Application.Features.Services;
-using HomeMate.Domain.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
+using HomeMate.Auth.Application.Features.Authentication.DTOs;
+using HomeMate.Auth.Application.Features.Authentication.Services;
+using HomeMate.Auth.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace HomeMate.Infrastructure.Identity.Services
+namespace HomeMate.Auth.Infrastructure.Identity.Services;
+
+public class AuthService : IAuthService
 {
-    public class AuthService : IAuthService
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public AuthService(UserManager<ApplicationUser> userManager)
     {
-        public readonly UserManager<ApplicationUser> _userManager;
+        _userManager = userManager;
+    }
 
-        public AuthService(UserManager<ApplicationUser> userManager)
+    public async Task RegisterAsync(RegisterRequest request)
+    {
+        var user = new ApplicationUser
         {
-            _userManager = userManager;
-        }
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            UserName = request.Email
+        };
 
-        public async Task RegisterAsyc(RegisterRequest request)
+        var result = await _userManager.CreateAsync(
+            user,
+            request.Password);
+
+        if (!result.Succeeded)
         {
-            var user = new ApplicationUser
-            {
-                UserName = request.Email,
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName
-            };
+            var errors = string.Join(
+                ", ",
+                result.Errors.Select(x => x.Description));
 
-            var result = await _userManager.CreateAsync(user, request.Password);
-
-            if(!result.Succeeded)
-            {
-                var error = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new InvalidOperationException(error);
-            }
-
-
-            //return result;
+            throw new InvalidOperationException(errors);
         }
     }
 }

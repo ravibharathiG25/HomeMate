@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace HomeMate.Auth.Application.Features.Authentication.DTOs;
 
-namespace HomeMate.Application.Features.Authentication.DTOs
+public class LoginRequest
 {
-    internal class LoginRequest
-    {
-    }
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

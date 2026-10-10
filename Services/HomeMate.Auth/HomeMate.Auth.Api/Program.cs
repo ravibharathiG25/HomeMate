@@ -1,13 +1,12 @@
-using HomeMate.Infrastructure;
+using HomeMate.Auth.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddInfrastructure(builder.Configuration);
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// OpenAPI/Swagger configuration
 builder.Services.AddOpenApi();
 
 var app = builder.Build();

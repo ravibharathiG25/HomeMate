@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace HomeMate.Infrastructure.Persistence.Migrations
+namespace HomeMate.Auth.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialIdentity : Migration
