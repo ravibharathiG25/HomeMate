@@ -1,3 +1,4 @@
+using HomeMate.Auth.Api.Middleware;
 using HomeMate.Auth.Infrastructure;
 using Microsoft.OpenApi;
 
@@ -6,6 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Configure Swagger with JWT Bearer support
 builder.Services.AddEndpointsApiExplorer();
@@ -42,6 +55,8 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -54,6 +69,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -11,5 +11,6 @@ namespace HomeMate.Application.Features.Authentication.DTOs
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string AccessToken { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }
