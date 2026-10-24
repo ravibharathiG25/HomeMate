@@ -10,6 +10,8 @@ using HomeMate.Auth.Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using HomeMate.Shared.Events;
+using HomeMate.Shared.Messaging;
 
 namespace HomeMate.Auth.Infrastructure.Identity.Services;
 
@@ -19,31 +21,50 @@ public class AuthService : IAuthService
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly HomeMateDbContext _context;
+    private readonly IEventBus _eventBus;
 
-    public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, IJwtTokenGenerator jwtTokenGenerator, HomeMateDbContext context)
+    public AuthService(
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager,
+        IJwtTokenGenerator jwtTokenGenerator,
+        HomeMateDbContext context,
+        IEventBus eventBus)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _jwtTokenGenerator = jwtTokenGenerator;
         _context = context;
+        _eventBus = eventBus;
     }
 
     public async Task RegisterAsync(RegisterRequest request)
     {
         var role = string.IsNullOrWhiteSpace(request.Role) ? Roles.Customer : request.Role;
 
-        if(!Roles.All.Contains(role))
+        if (!Roles.All.Contains(role))
         {
             throw new BadRequestException($"Invalid role '{request.Role}'. Allowed roles: {string.Join(", ", Roles.All)}");
         }
 
-        if(!await _roleManager.RoleExistsAsync(role))
+        if (!await _roleManager.RoleExistsAsync(role))
         {
-            await _roleManager.CreateAsync(new IdentityRole<Guid> { Name = role });
+            var roleResult = await _roleManager.CreateAsync(new IdentityRole<Guid>
+            {
+                Id = Guid.NewGuid(),
+                Name = role,
+                NormalizedName = role.ToUpperInvariant()
+            });
+
+            if (!roleResult.Succeeded)
+            {
+                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                throw new BadRequestException($"Failed to create role '{role}': {errors}");
+            }
         }
 
         var user = new ApplicationUser
         {
+            Id = Guid.NewGuid(),
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
@@ -64,6 +85,15 @@ public class AuthService : IAuthService
         }
 
         await _userManager.AddToRoleAsync(user, role);
+
+        // Publish UserRegisteredIntegrationEvent to Message Broker
+        await _eventBus.PublishAsync(new UserRegisteredIntegrationEvent(
+            user.Id,
+            user.Email!,
+            user.FirstName,
+            user.LastName,
+            role
+        ));
     }
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
@@ -91,7 +121,7 @@ public class AuthService : IAuthService
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Email = user.Email,
+            Email = user.Email ?? string.Empty,
             AccessToken = token,
             RefreshToken = refreshToken.Token
         };
@@ -127,7 +157,7 @@ public class AuthService : IAuthService
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Email = user.Email,
+            Email = user.Email ?? string.Empty,
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken.Token
         };

@@ -1,5 +1,192 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+## ==============================================================================
+## HomeMate .gitignore
+## Covers .NET / C#, Visual Studio, VS Code, JetBrains Rider, Docker, Node.js & OS
+## ==============================================================================
 
-/build.binlog
+# ------------------------------------------------------------------------------
+# Build and Output Files (.NET / C#)
+# ------------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+bld/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+artifacts/
+publish/
+Generated\ Files/
+
+# MSBuild & Binary Logs
+*.binlog
+[Bb]uild[Ll]og.*
+*.pidb
+*.svclog
+
+# Visual Studio files built
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.scc
+
+# ------------------------------------------------------------------------------
+# User-Specific and Workspace Files (Visual Studio)
+# ------------------------------------------------------------------------------
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+
+# Visual Studio cache files
+*.[Cc]ache
+!?*.[Cc]ache/
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+ipch/
+*.aps
+*.ncb
+
+# ------------------------------------------------------------------------------
+# Visual Studio Code & JetBrains Rider / ReSharper
+# ------------------------------------------------------------------------------
+# VS Code (preserve shared settings/tasks, ignore personal workspace states)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains Rider & IDEA
+.idea/
+*.sln.iml
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# ------------------------------------------------------------------------------
+# Testing and Coverage
+# ------------------------------------------------------------------------------
+[Tt]est[Rr]esult*/
+TestResult.xml
+*.VisualState.xml
+nunit-*.xml
+*.dotCover
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+BenchmarkDotNet.Artifacts/
+
+# ------------------------------------------------------------------------------
+# NuGet Packages & Dependencies
+# ------------------------------------------------------------------------------
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+
+# ------------------------------------------------------------------------------
+# Environment Variables, Secrets & Local Overrides
+# ------------------------------------------------------------------------------
+*.env
+*.env.*
+!.env.example
+!.env.template
+appsettings.*.local.json
+appsettings.Local.json
+appsettings.secrets.json
+secrets.json
+
+# Azure / Publish Profiles (contain sensitive connection strings/passwords)
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+PublishScripts/
+
+# ------------------------------------------------------------------------------
+# Docker & Containers
+# ------------------------------------------------------------------------------
+docker-compose.override.yml
+
+# ------------------------------------------------------------------------------
+# Node / Frontend (for future web dashboards / SPAs)
+# ------------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+dist/
+.next/
+.nuxt/
+
+# ------------------------------------------------------------------------------
+# Operating System Files
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory

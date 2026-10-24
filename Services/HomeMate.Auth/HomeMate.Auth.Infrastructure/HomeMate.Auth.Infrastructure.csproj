@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HomeMate.Auth.Application\HomeMate.Auth.Application.csproj" />
     <ProjectReference Include="..\HomeMate.Auth.Domain\HomeMate.Auth.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\HomeMate.Shared\HomeMate.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="BuildingBlocks/HomeMate.Shared/HomeMate.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/HomeMate.Auth/">
+    <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Api/HomeMate.Auth.Api.csproj" />
+    <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Application/HomeMate.Auth.Application.csproj" />
+    <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Domain/HomeMate.Auth.Domain.csproj" />
+    <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Infrastructure/HomeMate.Auth.Infrastructure.csproj" />
+  </Folder>
+</Solution>

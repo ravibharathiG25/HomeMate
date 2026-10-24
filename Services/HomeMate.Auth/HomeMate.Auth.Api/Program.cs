@@ -1,11 +1,14 @@
 using HomeMate.Auth.Api.Middleware;
 using HomeMate.Auth.Infrastructure;
+using HomeMate.Auth.Infrastructure.Persistence;
+using HomeMate.Shared.Messaging;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddEventBus(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -54,6 +57,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+// Automatically apply migrations and seed initial roles
+await DbInitializer.SeedAsync(app.Services);
 
 app.UseExceptionHandler();
 
