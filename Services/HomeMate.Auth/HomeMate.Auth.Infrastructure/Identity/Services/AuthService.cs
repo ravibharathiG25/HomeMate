@@ -1,5 +1,5 @@
 using HomeMate.Application.Features.Authentication.DTOs;
-using HomeMate.Auth.Application.Common.Exceptions;
+using HomeMate.Shared.Exceptions;
 using HomeMate.Auth.Application.Common.Interfaces;
 using HomeMate.Auth.Application.Features.Authentication.DTOs;
 using HomeMate.Auth.Application.Features.Authentication.Services;
@@ -123,7 +123,8 @@ public class AuthService : IAuthService
             LastName = user.LastName,
             Email = user.Email ?? string.Empty,
             AccessToken = token,
-            RefreshToken = refreshToken.Token
+            RefreshToken = refreshToken.Token,
+            Roles = roles.ToList()
         };
     }
 
@@ -159,7 +160,8 @@ public class AuthService : IAuthService
             LastName = user.LastName,
             Email = user.Email ?? string.Empty,
             AccessToken = newAccessToken,
-            RefreshToken = newRefreshToken.Token
+            RefreshToken = newRefreshToken.Token,
+            Roles = roles.ToList()
         };
     }
 

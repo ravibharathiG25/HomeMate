@@ -1,4 +1,5 @@
 using HomeMate.Auth.Domain.Constants;
+using HomeMate.Auth.Infrastructure.Identity;
 using HomeMate.Auth.Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,31 @@ public static class DbInitializer
                     {
                         logger.LogInformation("Seeded system role: {Role}", role);
                     }
+                }
+            }
+
+            // Seed default Admin user
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            const string adminEmail = "admin@homemate.com";
+            var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+
+            if (existingAdmin is null)
+            {
+                var adminUser = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "System",
+                    LastName = "Administrator",
+                    Email = adminEmail,
+                    UserName = adminEmail,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await userManager.CreateAsync(adminUser, "Admin@123");
+                if (createResult.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, Roles.Admin);
+                    logger.LogInformation("Seeded default Admin user: {Email}", adminEmail);
                 }
             }
         }

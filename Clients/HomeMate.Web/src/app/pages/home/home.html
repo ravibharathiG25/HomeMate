@@ -1,0 +1,135 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-badge badge badge-primary animate-fade-in">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        Top-Rated On-Demand Home Services
+      </div>
+
+      <h1 class="hero-main-title">
+        Your Home, Our Priority.<br/>
+        <span class="gradient-text">Verified Pros at Your Door.</span>
+      </h1>
+
+      <p class="hero-description">
+        From emergency plumbing to electrical upgrades and deep cleaning, HomeMate connects you with background-checked professionals with guaranteed upfront pricing.
+      </p>
+
+      <div class="hero-cta-group">
+        @if (!authService.isAuthenticated()) {
+          <a routerLink="/register" class="btn btn-primary btn-lg" id="hero-btn-book">
+            Get Started Free
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+          <a routerLink="/login" class="btn btn-secondary btn-lg" id="hero-btn-login">Sign In</a>
+        } @else {
+          <a routerLink="/dashboard" class="btn btn-primary btn-lg" id="hero-btn-dashboard">
+            Go to My Dashboard
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        }
+      </div>
+
+      <!-- Trust Bar -->
+      <div class="trust-bar">
+        <div class="trust-item">
+          <span class="trust-number">10k+</span>
+          <span class="trust-text">Completed Jobs</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <span class="trust-number">4.9/5</span>
+          <span class="trust-text">Customer Rating</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <span class="trust-number">100%</span>
+          <span class="trust-text">Verified Pros</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Services Grid -->
+  <section class="services-section container" id="services">
+    <div class="section-header">
+      <span class="badge badge-cyan">Explore Categories</span>
+      <h2 class="section-title">Popular Home Solutions</h2>
+      <p class="section-subtitle">Choose from our curated network of certified and insured tradespeople.</p>
+    </div>
+
+    <div class="services-grid">
+      @for (service of featuredServices; track service.id) {
+        <div class="service-card glass-card">
+          <div class="service-card-top">
+            <span class="service-category badge badge-primary">{{ service.category }}</span>
+            <span class="service-rating">★ {{ service.rating }}</span>
+          </div>
+
+          <h3 class="service-name">{{ service.name }}</h3>
+          <p class="service-desc">{{ service.description }}</p>
+
+          <div class="service-card-bottom">
+            <div class="service-price">
+              <span class="price-label">Starting at</span>
+              <span class="price-value">${{ service.startingPrice }}</span>
+            </div>
+            <a routerLink="/register" class="btn btn-outline btn-sm">Book Pro</a>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-section container" id="features">
+    <div class="section-header">
+      <span class="badge badge-emerald">Simple & Reliable</span>
+      <h2 class="section-title">How HomeMate Works</h2>
+      <p class="section-subtitle">Book high-quality service in three effortless steps.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card glass-card">
+        <div class="step-badge">01</div>
+        <h3 class="step-title">Choose Service</h3>
+        <p class="step-desc">Select the maintenance, repair, or cleaning service you need with upfront estimates.</p>
+      </div>
+
+      <div class="step-card glass-card">
+        <div class="step-badge">02</div>
+        <h3 class="step-title">Instant Matching</h3>
+        <p class="step-desc">Our intelligent routing pairs you with top-rated, nearby vetted professionals instantly.</p>
+      </div>
+
+      <div class="step-card glass-card">
+        <div class="step-badge">03</div>
+        <h3 class="step-title">Quality Delivered</h3>
+        <p class="step-desc">Your pro arrives on schedule. Enjoy seamless service backed by our 100% satisfaction guarantee.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Provider Call to Action Banner -->
+  <section class="provider-banner container">
+    <div class="provider-banner-card glass-card">
+      <div class="provider-banner-content">
+        <span class="badge badge-cyan">For Professionals</span>
+        <h2 class="provider-banner-title">Are You a Skilled Service Specialist?</h2>
+        <p class="provider-banner-desc">Grow your business, access verified local job leads, and get paid weekly with HomeMate.</p>
+        <a routerLink="/register" class="btn btn-primary btn-lg" id="home-btn-join-provider">
+          Register as a Provider
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

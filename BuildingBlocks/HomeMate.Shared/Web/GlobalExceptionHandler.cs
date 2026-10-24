@@ -54,12 +54,20 @@ public class GlobalExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = statusCode;
 
-        return await _problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        var handled = await _problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             HttpContext = httpContext,
             ProblemDetails = problemDetails,
             Exception = exception
         });
+
+        if (!handled)
+        {
+            httpContext.Response.ContentType = "application/problem+json";
+            await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        }
+
+        return true;
     }
 
     private static (int StatusCode, string Title, string Detail) MapException(Exception exception)
@@ -100,6 +108,16 @@ public class GlobalExceptionHandler : IExceptionHandler
                 (int)appException.StatusCode,
                 "Application Error",
                 appException.Message
+            ),
+            ArgumentException argumentException => (
+                StatusCodes.Status400BadRequest,
+                "Bad Request",
+                argumentException.Message
+            ),
+            InvalidOperationException invalidOperationException => (
+                StatusCodes.Status400BadRequest,
+                "Bad Request",
+                invalidOperationException.Message
             ),
             _ => (
                 StatusCodes.Status500InternalServerError,

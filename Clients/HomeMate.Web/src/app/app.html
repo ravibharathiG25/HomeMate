@@ -1,0 +1,40 @@
+<div class="app-layout">
+  <app-navbar />
+
+  <main class="app-main" id="main-content">
+    <router-outlet />
+  </main>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Home<span class="accent">Mate</span></span>
+        <p class="footer-tagline">On-demand premium services for modern homes.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="col-title">Services</span>
+          <a href="/#services">Plumbing</a>
+          <a href="/#services">Electrical</a>
+          <a href="/#services">Cleaning</a>
+          <a href="/#services">HVAC & AC</a>
+        </div>
+        <div class="footer-col">
+          <span class="col-title">Company</span>
+          <a href="/#features">How It Works</a>
+          <a href="/register">Join as Provider</a>
+          <a href="/login">Customer Portal</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 HomeMate Technologies. All rights reserved.</p>
+      <div class="footer-status">
+        <span class="status-indicator"></span>
+        API Status: Connected to HomeMate.Auth
+      </div>
+    </div>
+  </footer>
+</div>
