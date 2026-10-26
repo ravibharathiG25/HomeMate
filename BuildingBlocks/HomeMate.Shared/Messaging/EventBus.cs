@@ -37,7 +37,20 @@ public class EventBus : IEventBus
             @event.EventId,
             @event.OccurredOnUtc);
 
-        await _publishEndpoint.Publish(@event, cancellationToken);
+        try
+        {
+            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeoutCts.CancelAfter(TimeSpan.FromSeconds(3));
+
+            await _publishEndpoint.Publish(@event, timeoutCts.Token);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(
+                ex,
+                "Could not deliver integration event {EventType} to RabbitMQ within timeout. Broker may be offline.",
+                @event.EventType);
+        }
     }
 
     public async Task SendAsync<T>(T command, string queueName, CancellationToken cancellationToken = default)

@@ -2,134 +2,245 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="container hero-container">
-      <div class="hero-badge badge badge-primary animate-fade-in">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
-        Top-Rated On-Demand Home Services
+      <!-- Trust Badge -->
+      <div class="hero-trust-badge">
+        <span class="trust-dot"></span>
+        <span>Certified & Insured Master Tradespeople</span>
       </div>
 
-      <h1 class="hero-main-title">
-        Your Home, Our Priority.<br/>
-        <span class="gradient-text">Verified Pros at Your Door.</span>
+      <!-- Typography Hierarchy -->
+      <h1 class="hero-title">
+        Expert Home Services.<br />
+        <span class="hero-title-accent">On Demand, Fixed Pricing.</span>
       </h1>
 
-      <p class="hero-description">
-        From emergency plumbing to electrical upgrades and deep cleaning, HomeMate connects you with background-checked professionals with guaranteed upfront pricing.
+      <p class="hero-subtitle">
+        Book vetted plumbers, electricians, cleaners, and HVAC specialists in seconds with guaranteed upfront rates and zero hidden fees.
       </p>
 
-      <div class="hero-cta-group">
-        @if (!authService.isAuthenticated()) {
-          <a routerLink="/register" class="btn btn-primary btn-lg" id="hero-btn-book">
-            Get Started Free
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
-            </svg>
+      <!-- Unified Search Experience -->
+      <div class="search-experience">
+        <div class="search-bar">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search services (e.g. Deep Cleaning, AC Repair, Leak Fix)..."
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            id="hero-service-search"
+          />
+          @if (searchQuery().length > 0) {
+            <button type="button" class="search-clear-btn" (click)="clearSearch()" title="Clear search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          }
+          <a href="#services" class="btn btn-primary search-action-btn">
+            Find Pro
           </a>
-          <a routerLink="/login" class="btn btn-secondary btn-lg" id="hero-btn-login">Sign In</a>
-        } @else {
-          <a routerLink="/dashboard" class="btn btn-primary btn-lg" id="hero-btn-dashboard">
-            Go to My Dashboard
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
-            </svg>
-          </a>
+        </div>
+
+        <!-- Quick Action Pills -->
+        <div class="quick-action-pills">
+          <span class="quick-label">Trending:</span>
+          <button type="button" class="quick-pill" (click)="setQuickSearch('Leak Repair')">⚡ Emergency Plumbing</button>
+          <button type="button" class="quick-pill" (click)="setQuickSearch('Split AC')">❄️ AC Hydro-Jet</button>
+          <button type="button" class="quick-pill" (click)="setQuickSearch('Deep Cleaning')">✨ Deep Sanitization</button>
+          <button type="button" class="quick-pill" (click)="setQuickSearch('Smart Lock')">🔒 Smart Lock</button>
+        </div>
+      </div>
+
+      <!-- Hero Trust Metrics Bar -->
+      <div class="trust-metrics-bar">
+        <div class="trust-metric">
+          <span class="trust-val">15,000+</span>
+          <span class="trust-lbl">Jobs Completed</span>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-metric">
+          <span class="trust-val">4.96 ★</span>
+          <span class="trust-lbl">Customer Rating</span>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-metric">
+          <span class="trust-val">100%</span>
+          <span class="trust-lbl">Vetted & Insured</span>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-metric">
+          <span class="trust-val">&lt; 60 min</span>
+          <span class="trust-lbl">Express Arrival</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Catalog Grid Section -->
+  <section class="services-section container" id="services">
+    <div class="section-heading">
+      <h2 class="section-title">Explore Services</h2>
+      <p class="section-description">Select your trade specialization for verified upfront quotes and instant matching.</p>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="category-tabs-row">
+      <div class="category-tabs">
+        <button
+          type="button"
+          class="cat-tab"
+          [class.active]="selectedCategoryId() === null"
+          (click)="selectCategory(null)">
+          All Services
+        </button>
+        @for (cat of categories(); track cat.id) {
+          <button
+            type="button"
+            class="cat-tab"
+            [class.active]="selectedCategoryId() === cat.id"
+            (click)="selectCategory(cat.id)">
+            {{ cat.name }}
+          </button>
         }
       </div>
 
-      <!-- Trust Bar -->
-      <div class="trust-bar">
-        <div class="trust-item">
-          <span class="trust-number">10k+</span>
-          <span class="trust-text">Completed Jobs</span>
-        </div>
-        <div class="trust-divider"></div>
-        <div class="trust-item">
-          <span class="trust-number">4.9/5</span>
-          <span class="trust-text">Customer Rating</span>
-        </div>
-        <div class="trust-divider"></div>
-        <div class="trust-item">
-          <span class="trust-number">100%</span>
-          <span class="trust-text">Verified Pros</span>
-        </div>
+      <div class="results-count">
+        Showing <strong>{{ filteredServices().length }}</strong> services
       </div>
     </div>
-  </section>
 
-  <!-- Popular Services Grid -->
-  <section class="services-section container" id="services">
-    <div class="section-header">
-      <span class="badge badge-cyan">Explore Categories</span>
-      <h2 class="section-title">Popular Home Solutions</h2>
-      <p class="section-subtitle">Choose from our curated network of certified and insured tradespeople.</p>
-    </div>
-
-    <div class="services-grid">
-      @for (service of featuredServices; track service.id) {
-        <div class="service-card glass-card">
-          <div class="service-card-top">
-            <span class="service-category badge badge-primary">{{ service.category }}</span>
-            <span class="service-rating">★ {{ service.rating }}</span>
-          </div>
-
-          <h3 class="service-name">{{ service.name }}</h3>
-          <p class="service-desc">{{ service.description }}</p>
-
-          <div class="service-card-bottom">
-            <div class="service-price">
-              <span class="price-label">Starting at</span>
-              <span class="price-value">${{ service.startingPrice }}</span>
-            </div>
-            <a routerLink="/register" class="btn btn-outline btn-sm">Book Pro</a>
-          </div>
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="catalog-loading">
+        <div class="spinner"></div>
+        <p>Loading certified service catalogue...</p>
+      </div>
+    } @else if (filteredServices().length === 0) {
+      <!-- Empty State with Illustration & Recovery Paths -->
+      <div class="empty-state-card card">
+        <div class="empty-icon-wrapper">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#86868B" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
         </div>
-      }
-    </div>
+        <h3 class="empty-title">No services found for "{{ searchQuery() }}"</h3>
+        <p class="empty-description">We couldn't find an exact match. Try adjusting your search query or browse our most requested categories below.</p>
+        
+        <div class="empty-recovery-actions">
+          <button type="button" class="btn btn-outline btn-sm" (click)="clearSearch(); selectCategory(null)">
+            Reset All Filters
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="setQuickSearch('Cleaning')">
+            Deep Cleaning
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="setQuickSearch('Plumbing')">
+            Plumbing Repair
+          </button>
+        </div>
+      </div>
+    } @else {
+      <!-- 16:9 Service Grid with Clean Hierarchy -->
+      <div class="service-grid">
+        @for (service of filteredServices(); track service.id) {
+          <div class="service-card card">
+            <!-- 16:9 Imagery -->
+            <div class="card-media-wrapper">
+              <img [src]="service.imageUrl" [alt]="service.name" class="card-media" loading="lazy" />
+              <div class="media-badge-bar">
+                <span class="media-category">{{ service.categoryName }}</span>
+                <span class="media-rating">★ {{ service.rating }}</span>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="card-content">
+              <h3 class="service-title">{{ service.name }}</h3>
+              <p class="service-description">{{ service.shortDescription }}</p>
+
+              <div class="service-meta-info">
+                <span class="meta-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  {{ service.durationMinutes }} mins
+                </span>
+                <span class="meta-tag pro-guarantee">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                  100% Insured
+                </span>
+              </div>
+
+              <!-- Price & Book Pro Action -->
+              <div class="card-footer">
+                <div class="price-container">
+                  <span class="price-prefix">From</span>
+                  <div class="price-row">
+                    <span class="price-amount">${{ service.price }}</span>
+                    @if (service.originalPrice) {
+                      <span class="price-original">${{ service.originalPrice }}</span>
+                    }
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm book-cta-btn"
+                  (click)="openBookingModal(service)"
+                  id="book-btn-{{ service.id }}">
+                  Book Pro
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
   </section>
 
   <!-- How It Works Section -->
-  <section class="how-section container" id="features">
-    <div class="section-header">
-      <span class="badge badge-emerald">Simple & Reliable</span>
+  <section class="how-it-works-section container">
+    <div class="section-heading">
       <h2 class="section-title">How HomeMate Works</h2>
-      <p class="section-subtitle">Book high-quality service in three effortless steps.</p>
+      <p class="section-description">Simple, transparent, and reliable home service in three steps.</p>
     </div>
 
     <div class="steps-grid">
-      <div class="step-card glass-card">
-        <div class="step-badge">01</div>
-        <h3 class="step-title">Choose Service</h3>
-        <p class="step-desc">Select the maintenance, repair, or cleaning service you need with upfront estimates.</p>
+      <div class="step-card card">
+        <span class="step-num">01</span>
+        <h3 class="step-headline">Select Service & Window</h3>
+        <p class="step-text">Choose your exact trade need and select your preferred convenience slot with upfront fixed quotes.</p>
       </div>
 
-      <div class="step-card glass-card">
-        <div class="step-badge">02</div>
-        <h3 class="step-title">Instant Matching</h3>
-        <p class="step-desc">Our intelligent routing pairs you with top-rated, nearby vetted professionals instantly.</p>
+      <div class="step-card card">
+        <span class="step-num">02</span>
+        <h3 class="step-headline">Instant Pro Matching</h3>
+        <p class="step-text">Our routing engine pairs you with nearby vetted master tradespeople with 100% background checks.</p>
       </div>
 
-      <div class="step-card glass-card">
-        <div class="step-badge">03</div>
-        <h3 class="step-title">Quality Delivered</h3>
-        <p class="step-desc">Your pro arrives on schedule. Enjoy seamless service backed by our 100% satisfaction guarantee.</p>
+      <div class="step-card card">
+        <span class="step-num">03</span>
+        <h3 class="step-headline">Zero-Worry Completion</h3>
+        <p class="step-text">Your specialist arrives on schedule. Pay only after inspection and your total satisfaction.</p>
       </div>
     </div>
   </section>
 
-  <!-- Provider Call to Action Banner -->
-  <section class="provider-banner container">
-    <div class="provider-banner-card glass-card">
-      <div class="provider-banner-content">
-        <span class="badge badge-cyan">For Professionals</span>
-        <h2 class="provider-banner-title">Are You a Skilled Service Specialist?</h2>
-        <p class="provider-banner-desc">Grow your business, access verified local job leads, and get paid weekly with HomeMate.</p>
-        <a routerLink="/register" class="btn btn-primary btn-lg" id="home-btn-join-provider">
-          Register as a Provider
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- Booking Modal -->
+  @if (selectedServiceForBooking(); as selectedService) {
+    <app-booking-modal
+      [service]="selectedService"
+      (close)="closeBookingModal()"
+    />
+  }
 </div>

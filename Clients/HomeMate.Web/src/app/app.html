@@ -7,33 +7,65 @@
 
   <footer class="app-footer">
     <div class="container footer-inner">
+      <!-- Brand & Mission -->
       <div class="footer-brand">
-        <span class="footer-logo">Home<span class="accent">Mate</span></span>
-        <p class="footer-tagline">On-demand premium services for modern homes.</p>
+        <div class="footer-logo">Home<span class="accent">Mate</span></div>
+        <p class="footer-tagline">
+          The trusted on-demand platform for certified trade professionals and premium home concierge services.
+        </p>
+        <div class="footer-assurance-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          <span>Verified Background Checks & 100% Protection</span>
+        </div>
       </div>
 
+      <!-- Links Columns -->
       <div class="footer-links">
         <div class="footer-col">
-          <span class="col-title">Services</span>
-          <a href="/#services">Plumbing</a>
-          <a href="/#services">Electrical</a>
-          <a href="/#services">Cleaning</a>
-          <a href="/#services">HVAC & AC</a>
+          <span class="col-title">Master Trades</span>
+          <a routerLink="/" fragment="services">Full Deep Cleaning</a>
+          <a routerLink="/" fragment="services">Plumbing & Leak Repairs</a>
+          <a routerLink="/" fragment="services">Electrical & Circuit Care</a>
+          <a routerLink="/" fragment="services">Inverter AC Hydro-Jet</a>
+          <a routerLink="/" fragment="services">Smart Door Fitting</a>
         </div>
+
         <div class="footer-col">
-          <span class="col-title">Company</span>
-          <a href="/#features">How It Works</a>
-          <a href="/register">Join as Provider</a>
-          <a href="/login">Customer Portal</a>
+          <span class="col-title">Trust & Standard</span>
+          <a routerLink="/" fragment="features">How HomeMate Works</a>
+          <a routerLink="/" fragment="features">Upfront Price Guarantee</a>
+          <a routerLink="/" fragment="features">Insurance & Safety Protocol</a>
+          <a routerLink="/register">Become a Verified Pro</a>
+        </div>
+
+        <div class="footer-col">
+          <span class="col-title">Account & Access</span>
+          <a routerLink="/dashboard">My Appointments</a>
+          <a routerLink="/login">Customer Sign In</a>
+          <a routerLink="/register">Join Platform</a>
         </div>
       </div>
     </div>
 
+    <!-- Footer Bottom Bar -->
     <div class="container footer-bottom">
-      <p>&copy; 2026 HomeMate Technologies. All rights reserved.</p>
+      <div class="bottom-left">
+        <p>&copy; 2026 HomeMate Technologies, Inc. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="javascript:void(0)">Privacy Policy</a>
+          <span>•</span>
+          <a href="javascript:void(0)">Terms of Service</a>
+          <span>•</span>
+          <a href="javascript:void(0)">Guarantee Coverage</a>
+        </div>
+      </div>
+
       <div class="footer-status">
         <span class="status-indicator"></span>
-        API Status: Connected to HomeMate.Auth
+        <span class="status-text">All Systems Operational</span>
       </div>
     </div>
   </footer>

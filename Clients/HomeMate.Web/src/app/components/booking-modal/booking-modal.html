@@ -1,0 +1,317 @@
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-dialog card elevation-3" role="dialog" aria-modal="true">
+    <!-- Header with Close & Service Title -->
+    <div class="modal-header">
+      <div class="header-left">
+        <span class="badge badge-primary">Direct Booking</span>
+        <h2 class="modal-title">{{ service?.name }}</h2>
+      </div>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close modal">✕</button>
+    </div>
+
+    <!-- Step Progress Indicator (Steps 1 to 4) -->
+    @if (currentStep() < 5) {
+      <div class="step-progress-bar">
+        <div class="progress-step" [class.active]="currentStep() === 1" [class.completed]="currentStep() > 1" (click)="goToStep(1)">
+          <div class="step-circle">1</div>
+          <span class="step-label">Date</span>
+        </div>
+        <div class="progress-line" [class.active]="currentStep() > 1"></div>
+
+        <div class="progress-step" [class.active]="currentStep() === 2" [class.completed]="currentStep() > 2" (click)="goToStep(2)">
+          <div class="step-circle">2</div>
+          <span class="step-label">Time Window</span>
+        </div>
+        <div class="progress-line" [class.active]="currentStep() > 2"></div>
+
+        <div class="progress-step" [class.active]="currentStep() === 3" [class.completed]="currentStep() > 3" (click)="goToStep(3)">
+          <div class="step-circle">3</div>
+          <span class="step-label">Address</span>
+        </div>
+        <div class="progress-line" [class.active]="currentStep() > 3"></div>
+
+        <div class="progress-step" [class.active]="currentStep() === 4" [class.completed]="currentStep() > 4">
+          <div class="step-circle">4</div>
+          <span class="step-label">Review</span>
+        </div>
+      </div>
+    }
+
+    <!-- Modal Content Layout -->
+    <div class="modal-content-layout">
+      <!-- Left Step Content Panel -->
+      <div class="modal-step-panel">
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <!-- Step 1: Select Date -->
+        @if (currentStep() === 1) {
+          <div class="step-pane animate-fade-in">
+            <h3 class="pane-headline">Step 1: Choose Service Date</h3>
+            <p class="pane-subtitle">Select the day you would like your verified specialist to arrive.</p>
+
+            <div class="form-group date-picker-group">
+              <label class="form-label" for="step-date-input">Appointment Date</label>
+              <input
+                type="date"
+                id="step-date-input"
+                [(ngModel)]="selectedDate"
+                class="form-control"
+              />
+            </div>
+
+            <div class="pane-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="nextStep()">
+                Continue to Time Slots
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 2: Select Time Slot -->
+        @if (currentStep() === 2) {
+          <div class="step-pane animate-fade-in">
+            <h3 class="pane-headline">Step 2: Choose Arrival Window</h3>
+            <p class="pane-subtitle">Your pro will arrive within this 2-hour window on {{ selectedDate | date:'fullDate' }}.</p>
+
+            <div class="slots-grid">
+              @for (slot of availableSlots; track slot) {
+                <button
+                  type="button"
+                  class="slot-card"
+                  [class.selected]="selectedSlot === slot"
+                  (click)="selectSlot(slot)">
+                  <div class="slot-radio-indicator"></div>
+                  <span class="slot-time-text">{{ slot }}</span>
+                </button>
+              }
+            </div>
+
+            <div class="pane-footer">
+              <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+              <button type="button" class="btn btn-primary" (click)="nextStep()">
+                Continue to Address
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 3: Service Address -->
+        @if (currentStep() === 3) {
+          <div class="step-pane animate-fade-in">
+            <h3 class="pane-headline">Step 3: Service Location & Contact</h3>
+            <p class="pane-subtitle">Where should our master technician report?</p>
+
+            <div class="form-group">
+              <label class="form-label" for="booking-address">Street Address</label>
+              <input
+                type="text"
+                id="booking-address"
+                [(ngModel)]="address"
+                placeholder="e.g. 742 Evergreen Terrace"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="booking-city">City</label>
+                <input
+                  type="text"
+                  id="booking-city"
+                  [(ngModel)]="city"
+                  placeholder="e.g. Springfield"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="booking-zip">Postal Code</label>
+                <input
+                  type="text"
+                  id="booking-zip"
+                  [(ngModel)]="postalCode"
+                  placeholder="e.g. 97477"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="booking-phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="booking-phone"
+                  [(ngModel)]="phone"
+                  placeholder="+1 555-0142"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="booking-notes">Special Instructions (Optional)</label>
+                <input
+                  type="text"
+                  id="booking-notes"
+                  [(ngModel)]="notes"
+                  placeholder="Gate code #1234, ring bell"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="pane-footer">
+              <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+              <button type="button" class="btn btn-primary" (click)="nextStep()">
+                Review Booking Summary
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 4: Booking Summary Review -->
+        @if (currentStep() === 4) {
+          <div class="step-pane animate-fade-in">
+            <h3 class="pane-headline">Step 4: Final Booking Review</h3>
+            <p class="pane-subtitle">Confirm your appointment parameters before dispatch.</p>
+
+            <div class="summary-details-box">
+              <div class="summary-line">
+                <span class="summary-label">Service:</span>
+                <span class="summary-val"><strong>{{ service?.name }}</strong></span>
+              </div>
+              <div class="summary-line">
+                <span class="summary-label">Schedule:</span>
+                <span class="summary-val">{{ selectedDate | date:'mediumDate' }} • {{ selectedSlot }}</span>
+              </div>
+              <div class="summary-line">
+                <span class="summary-label">Location:</span>
+                <span class="summary-val">{{ address }}, {{ city }} ({{ postalCode }})</span>
+              </div>
+              <div class="summary-line">
+                <span class="summary-label">Phone:</span>
+                <span class="summary-val">{{ phone }}</span>
+              </div>
+            </div>
+
+            <!-- Trust Messaging Requirement -->
+            <div class="trust-guarantee-callout">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <div class="trust-callout-text">
+                <strong>No payment required today.</strong>
+                <span>Pay after service completion. Total satisfaction guaranteed.</span>
+              </div>
+            </div>
+
+            <div class="pane-footer">
+              <button type="button" class="btn btn-secondary" (click)="prevStep()" [disabled]="isLoading()">Back</button>
+              <button type="button" class="btn btn-primary" (click)="confirmBooking()" [disabled]="isLoading()">
+                @if (isLoading()) {
+                  <span class="spinner"></span>
+                  Confirming Booking...
+                } @else {
+                  Confirm Appointment (${{ totalAmount | number:'1.2-2' }})
+                }
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 5: Confirmation (Ticket Receipt) -->
+        @if (currentStep() === 5 && successBooking(); as booking) {
+          <div class="step-pane confirmation-pane animate-fade-in">
+            <div class="confirmation-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+
+            <h3 class="pane-headline">Booking Confirmed!</h3>
+            <p class="pane-subtitle">
+              Your appointment has been reserved. Reference number:
+              <strong class="ref-code">{{ booking.bookingReference }}</strong>
+            </p>
+
+            <div class="ticket-receipt card">
+              <div class="receipt-row">
+                <span>Service</span>
+                <strong>{{ booking.serviceName }}</strong>
+              </div>
+              <div class="receipt-row">
+                <span>Date & Window</span>
+                <strong>{{ booking.scheduledDate | date:'mediumDate' }} ({{ booking.timeSlot }})</strong>
+              </div>
+              <div class="receipt-row">
+                <span>Destination</span>
+                <strong>{{ booking.address }}, {{ booking.city }}</strong>
+              </div>
+              <div class="receipt-row total">
+                <span>Due on Completion</span>
+                <strong class="total-amount">${{ booking.totalPrice | number:'1.2-2' }}</strong>
+              </div>
+            </div>
+
+            <div class="confirmation-actions">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button type="button" class="btn btn-primary" (click)="goToDashboard()">
+                View in My Dashboard
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Right Sticky Summary Panel (Visible on Steps 1 to 4) -->
+      @if (currentStep() < 5) {
+        <div class="modal-sticky-summary">
+          <div class="service-preview-card card">
+            <img [src]="service?.imageUrl" [alt]="service?.name" class="preview-img" />
+            <div class="preview-info">
+              <span class="preview-category">{{ service?.categoryName }}</span>
+              <h4 class="preview-name">{{ service?.name }}</h4>
+              <span class="preview-duration">⏱ {{ service?.durationMinutes }} mins</span>
+            </div>
+          </div>
+
+          <!-- Pricing Breakdown -->
+          <div class="price-breakdown card">
+            <div class="price-line">
+              <span>Base Service Fee</span>
+              <span>${{ service?.price | number:'1.2-2' }}</span>
+            </div>
+            <div class="price-line">
+              <span>Taxes & Guarantee (5%)</span>
+              <span>${{ taxAmount | number:'1.2-2' }}</span>
+            </div>
+            <div class="price-line total-line">
+              <span>Total Payable</span>
+              <span class="total-figure">${{ totalAmount | number:'1.2-2' }}</span>
+            </div>
+            <div class="summary-trust-notice">
+              <span>✓ 100% Satisfaction Guarantee</span>
+              <span>✓ Pay After Completion</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

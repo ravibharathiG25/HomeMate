@@ -9,4 +9,22 @@
     <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Domain/HomeMate.Auth.Domain.csproj" />
     <Project Path="Services/HomeMate.Auth/HomeMate.Auth.Infrastructure/HomeMate.Auth.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/Services/HomeMate.Notification/">
+    <Project Path="Services/HomeMate.Notification/HomeMate.Notification.Api/HomeMate.Notification.Api.csproj" />
+    <Project Path="Services/HomeMate.Notification/HomeMate.Notification.Application/HomeMate.Notification.Application.csproj" />
+    <Project Path="Services/HomeMate.Notification/HomeMate.Notification.Domain/HomeMate.Notification.Domain.csproj" />
+    <Project Path="Services/HomeMate.Notification/HomeMate.Notification.Infrastructure/HomeMate.Notification.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/HomeMate.Catalog/">
+    <Project Path="Services/HomeMate.Catalog/HomeMate.Catalog.Api/HomeMate.Catalog.Api.csproj" />
+    <Project Path="Services/HomeMate.Catalog/HomeMate.Catalog.Application/HomeMate.Catalog.Application.csproj" />
+    <Project Path="Services/HomeMate.Catalog/HomeMate.Catalog.Domain/HomeMate.Catalog.Domain.csproj" />
+    <Project Path="Services/HomeMate.Catalog/HomeMate.Catalog.Infrastructure/HomeMate.Catalog.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/HomeMate.Booking/">
+    <Project Path="Services/HomeMate.Booking/HomeMate.Booking.Api/HomeMate.Booking.Api.csproj" />
+    <Project Path="Services/HomeMate.Booking/HomeMate.Booking.Application/HomeMate.Booking.Application.csproj" />
+    <Project Path="Services/HomeMate.Booking/HomeMate.Booking.Domain/HomeMate.Booking.Domain.csproj" />
+    <Project Path="Services/HomeMate.Booking/HomeMate.Booking.Infrastructure/HomeMate.Booking.Infrastructure.csproj" />
+  </Folder>
 </Solution>

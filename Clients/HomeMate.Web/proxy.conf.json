@@ -1,4 +1,40 @@
 {
+  "/api/bookings": {
+    "target": "http://localhost:5111",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/categories": {
+    "target": "http://localhost:5110",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/services": {
+    "target": "http://localhost:5110",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/notifications": {
+    "target": "http://localhost:5109",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/auth": {
+    "target": "https://localhost:7112",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/Auth": {
+    "target": "https://localhost:7112",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/api": {
     "target": "https://localhost:7112",
     "secure": false,

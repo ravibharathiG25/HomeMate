@@ -1,34 +1,51 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { BookingService } from '../../core/services/booking.service';
+import { Booking } from '../../core/models/booking.models';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   readonly authService = inject(AuthService);
+  private readonly bookingService = inject(BookingService);
 
-  testApiResult = signal<any | null>(null);
-  testApiLoading = signal<boolean>(false);
-  testApiError = signal<string | null>(null);
+  bookings = signal<Booking[]>([]);
+  isLoadingBookings = signal<boolean>(true);
 
-  testProtectedEndpoint(): void {
-    this.testApiLoading.set(true);
-    this.testApiError.set(null);
-    this.testApiResult.set(null);
+  // Computed KPI Metrics
+  activeBookings = computed(() =>
+    this.bookings().filter(b => String(b.status).toLowerCase() !== 'completed' && String(b.status).toLowerCase() !== 'cancelled')
+  );
 
-    this.authService.getMe().subscribe({
-      next: (res) => {
-        this.testApiLoading.set(false);
-        this.testApiResult.set(res);
+  completedBookings = computed(() =>
+    this.bookings().filter(b => String(b.status).toLowerCase() === 'completed')
+  );
+
+  totalSpent = computed(() =>
+    this.bookings().reduce((sum, b) => sum + (b.totalPrice || 0), 0)
+  );
+
+  ngOnInit(): void {
+    this.loadMyBookings();
+  }
+
+  loadMyBookings(): void {
+    this.isLoadingBookings.set(true);
+    this.bookingService.getMyBookings().subscribe({
+      next: (data) => {
+        this.bookings.set(data);
+        this.isLoadingBookings.set(false);
       },
       error: (err) => {
-        this.testApiLoading.set(false);
-        this.testApiError.set(err.message || 'Failed to call protected /api/Auth/me endpoint');
+        console.warn('Could not load bookings', err);
+        this.isLoadingBookings.set(false);
       }
     });
   }

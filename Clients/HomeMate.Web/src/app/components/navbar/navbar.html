@@ -17,8 +17,8 @@
     <!-- Nav Links -->
     <nav class="nav-links">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link" id="nav-link-home">Home</a>
-      <a routerLink="/#services" class="nav-link" id="nav-link-services">Services</a>
-      <a routerLink="/#features" class="nav-link" id="nav-link-features">How It Works</a>
+      <a routerLink="/" fragment="services" class="nav-link" id="nav-link-services">Services</a>
+      <a routerLink="/" fragment="features" class="nav-link" id="nav-link-features">How It Works</a>
       @if (authService.isAuthenticated()) {
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" id="nav-link-dashboard">
           Dashboard

@@ -9,7 +9,11 @@
 .auth-card {
   width: 100%;
   max-width: 460px;
-  padding: 40px;
+  padding: 44px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
 }
 
 .auth-header {
@@ -23,12 +27,15 @@
 
 .auth-title {
   font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   margin-bottom: 8px;
+  color: #1d1d1f;
 }
 
 .auth-subtitle {
-  color: var(--text-secondary);
-  font-size: 0.92rem;
+  color: #6e6e73;
+  font-size: 0.94rem;
 }
 
 .label-with-action {
@@ -39,7 +46,7 @@
 
 .forgot-link {
   font-size: 0.82rem;
-  color: var(--primary);
+  color: #0071e3;
   font-weight: 500;
 }
 .forgot-link:hover {
@@ -61,7 +68,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: #86868b;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -71,7 +78,7 @@
   transition: color var(--transition-fast);
 }
 .password-toggle-btn:hover {
-  color: var(--text-main);
+  color: #1d1d1f;
 }
 
 .btn-block {
@@ -82,14 +89,14 @@
 .auth-footer {
   margin-top: 28px;
   padding-top: 24px;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   text-align: center;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #6e6e73;
 }
 
 .auth-link {
-  color: var(--accent-cyan);
+  color: #0071e3;
   font-weight: 600;
 }
 .auth-link:hover {

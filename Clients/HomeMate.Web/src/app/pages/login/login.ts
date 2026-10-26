@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
@@ -22,39 +22,39 @@ export class LoginComponent {
     password: ''
   };
 
-  isLoading = false;
-  errorMessage: string | null = null;
-  showPassword = false;
+  isLoading = signal<boolean>(false);
+  errorMessage = signal<string | null>(null);
+  showPassword = signal<boolean>(false);
 
   onSubmit(): void {
     if (!this.credentials.email || !this.credentials.password) {
-      this.errorMessage = 'Please enter both your email and password.';
+      this.errorMessage.set('Please enter both your email and password.');
       return;
     }
 
-    this.isLoading = true;
-    this.errorMessage = null;
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
 
     this.authService.login(this.credentials).subscribe({
       next: (response) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
         this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         if (err.error) {
           const problem: ProblemDetails = err.error;
-          this.errorMessage = problem.detail || problem.title || 'Invalid email or password.';
+          this.errorMessage.set(problem.detail || problem.title || 'Invalid email or password.');
         } else {
-          this.errorMessage = 'Unable to connect to the authentication service. Please check if the API is running.';
+          this.errorMessage.set('Unable to connect to the authentication service. Please check if the API is running.');
         }
       }
     });
   }
 
   togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
+    this.showPassword.update(v => !v);
   }
 
   fillDemo(role: 'customer' | 'provider'): void {
